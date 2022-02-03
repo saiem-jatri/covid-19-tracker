@@ -2,6 +2,7 @@
 <main v-if="!loading">
 <DataTitle :text="title" :dataDate="dataDate"/>
   <DataBoxes :stat="stats" />
+  <CountrySelect @get-country="getCountryData" :countries="countries"/>
 </main>
 
   <main class="flex flex-col align-center justify-center text-center" v-else>
@@ -15,10 +16,11 @@
 <script>
 import DataTitle from '../components/DataTitle.vue'
 import DataBoxes from '../components/DataBoxes.vue'
+import CountrySelect from '../components/CountrySelect.vue'
 export default {
   name: "home",
   components:{DataTitle,
-              DataBoxes
+              DataBoxes,CountrySelect
   },
   methods:{
    async fetchCovidData(){
@@ -33,10 +35,14 @@ export default {
      }
      return data
     },
+    getCountryData(country){
+     this.stats=country
+      this.title=country.Country
+    }
   },
   data(){
     return{
-      loading: false,
+      loading: true,
       title:'Global',
       dataDate:'',
       stats:{},
